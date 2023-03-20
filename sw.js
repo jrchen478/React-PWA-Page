@@ -22,16 +22,12 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
     console.log('Fetch intercepted for:', event.request.url);
     event.respondWith(
-        caches.open(cacheName).then(function(cache){
-            return cache.match(event.request).then(function(response){
-                var fetchPromise = fetch(event.request).then(function(networkResponse)
-                {
-                    cache.put(event.request,networkResponse.clone());
-                    return networkResponse;
-                })
-                return response || fetchPromise;
-            })
-        })
+        caches.match(event.request).then((cachedResponse) => {
+            if (cachedResponse) {
+                return cachedResponse;
+            }
+            return fetch(event.request);
+        }),
     );
 });
 /*self.addEventListener('fetch', (event) => {
@@ -43,5 +39,17 @@ self.addEventListener('fetch', (event) => {
             }
             return fetch(event.request);
         }),
+    );
+    event.respondWith(
+        caches.open(cacheName).then(function(cache){
+            return cache.match(event.request).then(function(response){
+                var fetchPromise = fetch(event.request).then(function(networkResponse)
+                {
+                    cache.put(event.request,networkResponse.clone());
+                    return networkResponse;
+                })
+                return response || fetchPromise;
+            })
+        })
     );
 });*/

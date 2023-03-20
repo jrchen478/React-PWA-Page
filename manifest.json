@@ -1,7 +1,6 @@
 {
   "short_name": "PWA TEST",
   "name": "Create React App PWA",
-  "display": "fullscreen",
   "icons": [
     {
       "src": "favicon.ico",
