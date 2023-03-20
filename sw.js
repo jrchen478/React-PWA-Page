@@ -22,6 +22,21 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
     console.log('Fetch intercepted for:', event.request.url);
     event.respondWith(
+        caches.open('mysite-dynamic').then(function(cache){
+            return cache.match(event.request).then(function(response){
+                var fetchPromise = fetch(event.request).then(function(networkResponse)
+                {
+                    cache.put(event.request,networkResponse.clone());
+                    return networkResponse;
+                })
+                return response || fetchPromise;
+            })
+        })
+    );
+});
+/*self.addEventListener('fetch', (event) => {
+    console.log('Fetch intercepted for:', event.request.url);
+    event.respondWith(
         caches.match(event.request).then((cachedResponse) => {
             if (cachedResponse) {
                 return cachedResponse;
@@ -29,4 +44,4 @@ self.addEventListener('fetch', (event) => {
             return fetch(event.request);
         }),
     );
-});
+});*/
