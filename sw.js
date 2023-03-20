@@ -3,7 +3,7 @@ const cacheName = 'cache-v1';
 // List the files to precache
 const precacheResources =
     ['/', '/index.html', '/favicon.ico', '/logo192.png', '/logo512.png', '/manifest.json'
-        ,'./src/App.css','./src/index.css','./src/logo.svg'];
+        ,'./src/App.css','./src/index.css'];
 
 // When the service worker is installing, open the cache and add the precache resources to it
 // eslint-disable-next-line no-restricted-globals
