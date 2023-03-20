@@ -22,7 +22,7 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
     console.log('Fetch intercepted for:', event.request.url);
     event.respondWith(
-        caches.open('mysite-dynamic').then(function(cache){
+        caches.open(cacheName).then(function(cache){
             return cache.match(event.request).then(function(response){
                 var fetchPromise = fetch(event.request).then(function(networkResponse)
                 {
