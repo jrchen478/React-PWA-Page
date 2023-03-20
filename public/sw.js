@@ -3,7 +3,7 @@ const cacheName = 'cache-v1';
 // List the files to precache
 const precacheResources =
     ['/', '/index.html', '/favicon.ico', '/logo192.png', '/logo512.png', '/manifest.json'
-        ,'./src/App.css','./src/index.css','./src/logo.svg'];
+        ,'./src/App.css','./src/index.css'];
 
 // When the service worker is installing, open the cache and add the precache resources to it
 // eslint-disable-next-line no-restricted-globals
@@ -30,3 +30,26 @@ self.addEventListener('fetch', (event) => {
         }),
     );
 });
+/*self.addEventListener('fetch', (event) => {
+    console.log('Fetch intercepted for:', event.request.url);
+    event.respondWith(
+        caches.match(event.request).then((cachedResponse) => {
+            if (cachedResponse) {
+                return cachedResponse;
+            }
+            return fetch(event.request);
+        }),
+    );
+    event.respondWith(
+        caches.open(cacheName).then(function(cache){
+            return cache.match(event.request).then(function(response){
+                var fetchPromise = fetch(event.request).then(function(networkResponse)
+                {
+                    cache.put(event.request,networkResponse.clone());
+                    return networkResponse;
+                })
+                return response || fetchPromise;
+            })
+        })
+    );
+});*/
